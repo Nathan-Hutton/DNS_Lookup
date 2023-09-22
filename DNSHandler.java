@@ -6,7 +6,7 @@ public class DNSHandler
     public static final int BUFFER_SIZE = 256;
 
     // This is invoked by a different thread
-    public void process(Socket serverSocket) throws java.io.IOException {
+    public void process(Socket clientSocket) throws java.io.IOException {
         byte[] buffer = new byte[BUFFER_SIZE];
 
         BufferedReader fromClient = null;
@@ -14,8 +14,8 @@ public class DNSHandler
         String url = null;
         
         try {
-            fromClient = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
-            out = new PrintWriter(serverSocket.getOutputStream(), true);
+            fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
             url = fromClient.readLine();
             System.out.println("Got the url " + url);
 

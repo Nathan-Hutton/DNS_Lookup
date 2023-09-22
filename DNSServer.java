@@ -15,8 +15,6 @@ public class DNSServer
                 // Wait for clients to connect
                 Runnable task = new Connection(serverSocket.accept());
                 System.out.println("New client connected");
-                // Must modify this since Connection is a program Greg made
-                //Runnable task = new Connection(sock.accept());
                 exec.execute(task);
             }
         }

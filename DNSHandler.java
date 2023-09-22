@@ -8,25 +8,30 @@ public class DNSHandler
     // This is invoked by a different thread
     public void process(Socket client) throws java.io.IOException {
         byte[] buffer = new byte[BUFFER_SIZE];
+
+        BufferedReader fromClient = null;
+        PrintWriter out = null;
+        String url = null;
         
-        try (
-            //InputStream fromClient = new BufferedInputStream(client.getInputStream());
-            BufferedReader fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            //OutputStream toClient = new BufferedOutputStream(client.getOutputStream());
-            PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-        ){
-            String url = fromClient.readLine();
+        try {
+            fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
+            out = new PrintWriter(client.getOutputStream(), true);
+            url = fromClient.readLine();
             System.out.println("Got the url " + url);
-            //out.println(
-            //toClient.write("test");
-            // Writes the data to the network
-            //toClient.flush();
+
+            InetAddress address = InetAddress.getByName(url);
+            String ip = address.getHostAddress();
+            out.println(ip);
         }
-        catch (MalformedURLException e) {
-            System.out.println("Invalid URL");
+        catch (UnknownHostException uhe) {
+            out.println("Unknown host: " + url);
         }
         catch (IOException ioe) {
-            System.err.println(ioe);
+            out.println(ioe);
+        }
+        finally {
+            fromClient.close();
+            out.close();
         }
     }
 }

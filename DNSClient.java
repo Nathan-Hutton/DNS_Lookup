@@ -15,9 +15,9 @@ public class DNSClient
 
         // The actual process
         try (
-            Socket serverSocket = new Socket(args[0], PORT);
-            PrintWriter out = new PrintWriter(serverSocket.getOutputStream(), true);
-            BufferedReader fromServer = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+            Socket clientSocket = new Socket(args[0], PORT);
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            BufferedReader fromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         ){
             out.println(args[1]);
             String ip = fromServer.readLine();

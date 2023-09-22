@@ -13,6 +13,7 @@ public class DNSServer
         ){
             while (true) {
                 // Wait for clients to connect
+                // The argument of Connection is the client socket
                 Runnable task = new Connection(serverSocket.accept());
                 System.out.println("New client connected");
                 exec.execute(task);
